@@ -3,11 +3,13 @@ plugins {
 	id 'java'
 }
 
+apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'br.ufu.ileel'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+version = '1.0.0'
+sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
