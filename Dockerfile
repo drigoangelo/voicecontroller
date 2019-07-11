@@ -3,6 +3,7 @@ FROM adoptopenjdk/openjdk11:jdk-11.0.1.13-alpine
 VOLUME /tmp
 
 EXPOSE 8080
+RUN ls -lah
 RUN ./gradlew bootJar
 ADD build/libs/voicecontroller-1.0.0.jar /opt/voicecontroller-1.0.0.jar
 #RUN sh -c 'touch /opt/voicecontroller.jar'
