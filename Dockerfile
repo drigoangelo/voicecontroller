@@ -1,11 +1,19 @@
-FROM adoptopenjdk/openjdk11:jdk-11.0.1.13-alpine
+FROM gradle:jdk10 as builder
 
-VOLUME /tmp
+WORKDIR /home/gradle/src
 
-EXPOSE 8080
+RUN wget https://github.com/drigoangelo/voicecontroller/archive/1.0.0.tar.gz && \
+   tar -zxvf 1.0.0.tar.gz && \
+   rm 1.0.0.tar.gz
+
+RUN gradle bootJar
 RUN ls -lah
-RUN ./gradlew bootJar
-ADD build/libs/voicecontroller-1.0.0.jar /opt/voicecontroller-1.0.0.jar
-#RUN sh -c 'touch /opt/voicecontroller.jar'
+
+FROM adoptopenjdk:11-jre-hotspot
+EXPOSE 8080
+
+COPY --from=builder /home/gradle/src/voicecontroller-1.0.0/build/libs/voicecontroller-1.0.0.jar /app/voicecontroller-1.0.0.jar
+WORKDIR /app
+
 ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /opt/voicecontroller-1.0.0.jar" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/voicecontroller-1.0.0.jar" ]
