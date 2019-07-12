@@ -1,15 +1,12 @@
-FROM gradle:jdk10 as builder
-
+FROM gradle:jdk11 as builder
+WORKDIR /home/gradle/
+RUN mkdir src
 WORKDIR /home/gradle/src
-RUN ls -lha
 RUN wget https://github.com/drigoangelo/voicecontroller/archive/1.0.0.tar.gz
-RUN ls -lha
 RUN tar -zxvf 1.0.0.tar.gz
-RUN ls -lha
 RUN rm 1.0.0.tar.gz
-RUN ls -lha
+WORKDIR /home/gradle/src/voicecontroller-1.0.0
 RUN gradle bootJar
-RUN ls -lah
 
 FROM adoptopenjdk:11-jre-hotspot
 EXPOSE 8080
