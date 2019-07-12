@@ -2,10 +2,12 @@ FROM gradle:jdk10 as builder
 
 WORKDIR /home/gradle/src
 
-RUN wget https://github.com/drigoangelo/voicecontroller/archive/1.0.0.tar.gz && \
-   tar -zxvf 1.0.0.tar.gz && \
-   rm 1.0.0.tar.gz
-
+RUN wget https://github.com/drigoangelo/voicecontroller/archive/1.0.0.tar.gz
+RUN ls -lha
+RUN tar -zxvf 1.0.0.tar.gz
+RUN ls -lha
+RUN rm 1.0.0.tar.gz
+RUN ls -lha
 RUN gradle bootJar
 RUN ls -lah
 
